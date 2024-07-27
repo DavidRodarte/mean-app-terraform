@@ -8,13 +8,15 @@ terraform {
 }
 
 provider "aws" {
-  region     = "us-east-1"
-  access_key = "NO"
-  secret_key = "PE"
+  region = "us-east-1"
 }
 
-resource "aws_instance" "example" {
-  ami           = "ami-011899242bb902164" # Ubuntu 20.04 LTS // us-east-1
-  instance_type = "t2.micro"
-  subnet_id     = "subnet-024aa4fcf235ba614"
+module "security_group" {
+  source = "./modules/security-group"
 }
+
+#resource "aws_instance" "ec2-app" {
+#  ami           = "ami-0a0e5d9c7acc336f1" # Ubuntu Server 22.04 LTS // us-east-1
+#  instance_type = "t2.micro"
+#  subnet_id     = "subnet-024aa4fcf235ba614"
+#}
