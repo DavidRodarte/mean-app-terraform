@@ -8,11 +8,20 @@ resource "aws_vpc" "mean_vpc" {
   }
 }
 
-# Creación de subnet con IP pública
+# Creación de subnet1 con IP pública
 resource "aws_subnet" "subnet_1" {
   vpc_id                  = aws_vpc.mean_vpc.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
+  availability_zone       = "us-east-1a"
+}
+
+# Creación de subnet2 con IP pública
+resource "aws_subnet" "subnet_2" {
+  vpc_id                  = aws_vpc.mean_vpc.id
+  cidr_block              = "10.0.2.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "us-east-1b"
 }
 
 # Creación de Internet Gateway, será necesario para que la subnet tenga salida a internet
@@ -28,14 +37,19 @@ resource "aws_route_table" "public_route_table" {
 }
 
 resource "aws_route" "internet_route" {
-  route_table_id     = aws_route_table.public_route_table.id
+  route_table_id         = aws_route_table.public_route_table.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id       = aws_internet_gateway.igw-principal.id  
+  gateway_id             = aws_internet_gateway.igw-principal.id
 
 }
 
 resource "aws_route_table_association" "public_subnet_route_table" {
-  subnet_id     = aws_subnet.subnet_1.id
+  subnet_id      = aws_subnet.subnet_1.id
+  route_table_id = aws_route_table.public_route_table.id
+}
+
+resource "aws_route_table_association" "public_subnet2_route_table" {
+  subnet_id      = aws_subnet.subnet_2.id
   route_table_id = aws_route_table.public_route_table.id
 }
 
@@ -47,7 +61,7 @@ resource "aws_internet_gateway_attachment" "igw-enlace" {
 
 # Creación de grupo de seguridad
 resource "aws_security_group" "allow_ssh_http" {
-  vpc_id = aws_vpc.mean_vpc.id
+  vpc_id      = aws_vpc.mean_vpc.id
   name        = "allow_ssh_http"
   description = "Permitir trafico SSH y HTTP"
 
@@ -77,7 +91,7 @@ resource "aws_security_group" "allow_ssh_http" {
 }
 
 resource "aws_security_group" "allow_ssh_mongo" {
-  vpc_id      =  aws_vpc.mean_vpc.id
+  vpc_id      = aws_vpc.mean_vpc.id
   name        = "allow_ssh_mongo"
   description = "Permitir trafico SSH y puerto de MongoDB"
 
