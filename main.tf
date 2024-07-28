@@ -21,6 +21,8 @@ module "ec2-app" {
   source            = "./modules/ec2-app"
 }
 
-#module "ec2-mongodb" {
-#  source = "./modules/ec2-mongodb"
-#}
+module "ec2-mongodb" {
+  subnet_id         = module.security_group.subnet_id
+  security_group_id = module.security_group.sg_mongo_id
+  source            = "./modules/ec2-mongodb"
+}
