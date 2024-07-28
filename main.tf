@@ -15,8 +15,12 @@ module "security_group" {
   source = "./modules/security-group"
 }
 
-#resource "aws_instance" "ec2-app" {
-#  ami           = "ami-0a0e5d9c7acc336f1" # Ubuntu Server 22.04 LTS // us-east-1
-#  instance_type = "t2.micro"
-#  subnet_id     = "subnet-024aa4fcf235ba614"
+module "ec2-app" {
+  subnet_id         = module.security_group.subnet_id
+  security_group_id = module.security_group.sg_http_id
+  source            = "./modules/ec2-app"
+}
+
+#module "ec2-mongodb" {
+#  source = "./modules/ec2-mongodb"
 #}
