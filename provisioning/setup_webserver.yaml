@@ -1,6 +1,7 @@
 ---
-- name: Instalar Node
+- name: Configurar web server Node+Nginx
   hosts: nodeserver
   become: yes
   roles:
     - node
+    - nginx

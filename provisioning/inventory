@@ -1,4 +1,4 @@
 [nodeserver]
-3.90.185.90
+ec2-54-226-195-138.compute-1.amazonaws.com
 [mongoserver]
-54.146.107.32
+ec2-54-159-120-248.compute-1.amazonaws.com
