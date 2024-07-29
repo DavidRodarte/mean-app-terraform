@@ -3,6 +3,7 @@ resource "aws_instance" "ec2-mongodb" {
   instance_type               = "t2.micro"
   subnet_id                   = var.subnet_id
   security_groups             = [var.security_group_id]
+  key_name                    = var.key_pair
   associate_public_ip_address = true
   tags = {
     Name = "mongodb-server"

@@ -17,3 +17,7 @@ output "subnet2_id" {
 output "vpc_id" {
   value = aws_vpc.mean_vpc.id
 }
+
+output "key_pair" {
+  value = aws_key_pair.my-key.key_name
+}

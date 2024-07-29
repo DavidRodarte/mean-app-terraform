@@ -120,3 +120,9 @@ resource "aws_security_group" "allow_ssh_mongo" {
   }
 
 }
+
+# Creación de Keypair para conectarse por SSH
+resource "aws_key_pair" "my-key" {
+  key_name   = "my-key"
+  public_key = file("${path.root}/my-key.pub")
+}

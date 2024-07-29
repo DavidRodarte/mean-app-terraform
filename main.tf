@@ -18,12 +18,14 @@ module "security_group" {
 module "ec2-mongodb" {
   subnet_id         = module.security_group.subnet_id
   security_group_id = module.security_group.sg_mongo_id
+  key_pair          = module.security_group.key_pair
   source            = "./modules/ec2-mongodb"
 }
 
 module "ec2-app" {
   subnet_id         = module.security_group.subnet_id
   security_group_id = module.security_group.sg_http_id
+  key_pair          = module.security_group.key_pair
   source            = "./modules/ec2-app"
 }
 
