@@ -1,5 +1,6 @@
 ---
-- hosts: nodeserver
+- name: Instalar Node
+  hosts: nodeserver
   become: yes
   roles:
     - node
