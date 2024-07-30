@@ -14,12 +14,6 @@
     name: nodejs
     state: present
 
-- name: Verificar que NPM este instalado
-  apt:
-    name: npm
-    state: present
-    update_cache: yes
-
 - name: Instalar Angular CLI globalmente con NPM
   npm:
     name: '@angular/cli'
@@ -27,21 +21,32 @@
     state: present
 
 - name: Crear un directorio para la app Angular
-      file:
-        path: /home/ubuntu/my-angular-app
-        state: directory
-        owner: "ubuntu"
-        group: "ubuntu"
-        mode: '0755'
+  file:
+    path: my-angular-app
+    state: directory
+    owner: "ubuntu"
+    group: "ubuntu"
+    mode: '0755'
 
 - name: Generar la app Angular con ng new
-  command: ng new my-angular-app --directory /home/ubuntu/my-angular-app
-  args:
-    chdir: /home/ubuntu
+  command: ng new my-angular-app 
 
-- name: Iniciar la app Angular
-  command: npm start
+- name: Construir la app Angular
+  command: ng build --prod --aot --env:prod
   args:
-    chdir: /home/ubuntu/my-angular-app
-  async: 600
-  poll: 0
+    chdir: my-angular-app
+
+
+- name: Eliminar index por defecto
+  ansible.builtin.file:
+    path: /var/www/html/index.nginx-debian.html
+    state: absent
+
+- name: Copiar archivos a Nginx
+  ansible.builtin.copy:
+    src: /home/ubuntu/my-angular-app/dist/my-angular-app/browser
+    dest: /var/www/html
+    owner: root
+    group: root
+    mode: '0644'
+

@@ -16,3 +16,5 @@ En esta actividad desplegaremos los siguientes recursos:
    `terraform plan`
 4. Aplicar cambios
    `terraform apply -auto-approve`
+5. Para correr los Playbooks con ansible, entramos a la carpeta provisioning con `cd provisioning` y editamos el archivo Inventory con las IP públicas obtenidas del outputs de Terraform
+6. Para ejecutar los Playbooks, usamos el comando `ansible-playbook -i inventory --private-key=../my-key NOMBRE_PLAYBOOK.yaml`
