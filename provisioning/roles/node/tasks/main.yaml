@@ -26,7 +26,7 @@
     global: yes
     state: present
 
-- name: Create a directory for the Angular application
+- name: Crear un directorio para la app Angular
       file:
         path: /home/ubuntu/my-angular-app
         state: directory
@@ -34,12 +34,12 @@
         group: "ubuntu"
         mode: '0755'
 
-- name: Generate a new Angular application
+- name: Generar la app Angular con ng new
   command: ng new my-angular-app --directory /home/ubuntu/my-angular-app
   args:
     chdir: /home/ubuntu
 
-- name: Serve Angular application
+- name: Iniciar la app Angular
   command: npm start
   args:
     chdir: /home/ubuntu/my-angular-app
