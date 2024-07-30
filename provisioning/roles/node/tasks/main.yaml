@@ -13,3 +13,35 @@
   apt:
     name: nodejs
     state: present
+
+- name: Verificar que NPM este instalado
+  apt:
+    name: npm
+    state: present
+    update_cache: yes
+
+- name: Instalar Angular CLI globalmente con NPM
+  npm:
+    name: '@angular/cli'
+    global: yes
+    state: present
+
+- name: Create a directory for the Angular application
+      file:
+        path: /home/ubuntu/my-angular-app
+        state: directory
+        owner: "ubuntu"
+        group: "ubuntu"
+        mode: '0755'
+
+- name: Generate a new Angular application
+  command: ng new my-angular-app --directory /home/ubuntu/my-angular-app
+  args:
+    chdir: /home/ubuntu
+
+- name: Serve Angular application
+  command: npm start
+  args:
+    chdir: /home/ubuntu/my-angular-app
+  async: 600
+  poll: 0
